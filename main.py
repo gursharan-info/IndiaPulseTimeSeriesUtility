@@ -316,32 +316,33 @@ class Ui_MainWindow(object):
 	def filterDataset(self, csvfilename, level, level_name):
 
 		df = pd.read_csv(csvfilename,encoding='utf-8')
+		df.columns = [col.lower() for col in df.columns.tolist()]
 		time_format = '%d-%m-%Y'
 		LIST_OF_COLUMNS = []
 		print(level)
-		try:
-			if level == 'state':
-				filtered_df = df[['date','state_name'] + [col for col in df.columns.tolist() if col.endswith('state')]].copy()
-				print('filtered')
-				filtered_df = filtered_df[filtered_df['state_name'] == level_name].drop_duplicates(subset=['date','state_name']
-									).dropna(subset=['district_name']).reset_index(drop=True)
-				self.level_names = filtered_df['state_name'].values
-				# LIST_OF_COLUMNS = filtered_df.columns.tolist()
-			elif level == 'district':
-				filtered_df = df[['date','state_name','district_name'] + [col for col in df.columns.tolist() if col.endswith('district')]].copy()
-				filtered_df = filtered_df[filtered_df['district_name'] == level_name].drop_duplicates(subset=['date','state_name','district_name']
-									).dropna(subset=['district_name']).reset_index(drop=True)
-				self.level_names = filtered_df['district_name'].values
-				# LIST_OF_COLUMNS = filtered_df.columns.tolist()
-			elif level == 'india':
-				filtered_df = df[['date'] + [col for col in df.columns.tolist() if col.endswith('india')]].copy()
-				filtered_df = filtered_df.drop_duplicates(subset=['date']).reset_index(drop=True)
-				# LIST_OF_COLUMNS = filtered_df.columns.tolist()
-			else:
-				filtered_df = df.copy()	 
-		except Exception as e:
-			print(e)
-			filtered_df = df.copy()
+		
+		if level == 'state':
+			filtered_df = df[['date','state_name'] + [col for col in df.columns.tolist() if col.endswith('state')]].copy()
+			print('filtered')
+			filtered_df = filtered_df[filtered_df['state_name'] == level_name].drop_duplicates(subset=['date','state_name']
+								).dropna(subset=['state_name'], how='all').reset_index(drop=True)
+			self.level_names = filtered_df['state_name'].values
+			# LIST_OF_COLUMNS = filtered_df.columns.tolist()
+		elif level == 'district':
+			filtered_df = df[['date','state_name','district_name'] + [col for col in df.columns.tolist() if col.endswith('district')]].copy()
+			filtered_df = filtered_df[filtered_df['district_name'] == level_name].drop_duplicates(subset=['date','state_name','district_name']
+								).dropna(subset=['district_name'], how='all').reset_index(drop=True)
+			self.level_names = filtered_df['district_name'].values
+			# LIST_OF_COLUMNS = filtered_df.columns.tolist()
+		elif level == 'india':
+			filtered_df = df[['date'] + [col for col in df.columns.tolist() if col.endswith('india')]].copy()
+			filtered_df = filtered_df.drop_duplicates(subset=['date']).reset_index(drop=True)
+			# LIST_OF_COLUMNS = filtered_df.columns.tolist()
+		else:
+			filtered_df = df.copy()	 
+		# except Exception as e:
+		# 	print(e)
+		# 	filtered_df = df.copy()
 			
 		LIST_OF_COLUMNS = filtered_df.columns.tolist()
 		
