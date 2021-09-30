@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
-# Subscribe to PyShine Youtube channel for more detail! 
-#
-# Form implementation generated from reading ui file 'main.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.3
 #
 # WARNING! All changes made in this file will be lost!
-#
-# WEBSITE: www.pyshine.com
+
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 import matplotlib
 import matplotlib.pyplot as plt
@@ -407,9 +404,6 @@ class Ui_MainWindow(object):
 		self.actionOpen_csv_file.setText(_translate("MainWindow", "Open csv file"))
 		self.actionExit.setText(_translate("MainWindow", "Exit"))
 
-# Subscribe to PyShine Youtube channel for more detail! 
-
-# WEBSITE: www.pyshine.com
 
 if __name__ == "__main__":
 	import sys

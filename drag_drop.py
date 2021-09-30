@@ -1,6 +1,5 @@
 # Lets make the main window class
-# Subscribe to PyShine Youtube channel for more detail! 
-# WEBSITE: www.pyshine.com
+
 from main import Ui_MainWindow
 import sys
 from PyQt5 import QtCore, QtWidgets
@@ -15,7 +14,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 		"""
 		super().__init__()
 		self.setupUi(self)
-		self.setWindowTitle('PyShine drag drop plot')
+		self.setWindowTitle('IndiaPulse Time Series Plot')
 		self.setAcceptDrops(True)
 	def dragEnterEvent(self, e):
 		"""
@@ -48,8 +47,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 			self.readData()
 		else:
 			e.ignore() # just like above functions	
-# Subscribe to PyShine Youtube channel for more detail! 
-# WEBSITE: www.pyshine.com		
+
+	
 if __name__ == '__main__':
 	app = QtWidgets.QApplication(sys.argv)
 	window = MainWindow()
