@@ -189,7 +189,8 @@ class Ui_MainWindow(object):
 		print('level',value)
 		try:
 			if value == 'state' or value == 'district':
-				level_values = ['Select level name'] + self.df[value+'_name'].unique().tolist()
+				# print(self.dataset[value+'_name'].unique().tolist())
+				level_values = ['Select level name'] + self.dataset[value+'_name'].dropna().unique().tolist()
 			else:
 				level_values = ['india']
 		except Exception as e:
@@ -198,7 +199,7 @@ class Ui_MainWindow(object):
 
 		self.level=value
 		self.comboBox_4.clear()
-		print(level_values)
+		# print(level_values)
 		self.comboBox_4.addItems(level_values)
 		# self.comboBox_4.adjustSize()
 		# self.Update(self.themes[0])
@@ -296,10 +297,10 @@ class Ui_MainWindow(object):
 		dataset={}
 		#time_format = '%Y-%m-%d %H:%M:%S.%f' # Please use this format for time_series-data_2.csv kind of time stamp
 		time_format = '%d-%m-%Y'     # Please use this format for time_series-data_1.csv kind of time stamp
-		print(df.columns.tolist())
+		# print(df.columns.tolist())
 		
 		LIST_OF_COLUMNS = df.columns.tolist()
-		print(LIST_OF_COLUMNS)
+		# print(LIST_OF_COLUMNS)
 
 		for col in LIST_OF_COLUMNS:
 			# dataset[col]  =  filtered_df[col].iloc[0:].values
@@ -323,7 +324,7 @@ class Ui_MainWindow(object):
 		
 		if level == 'state':
 			filtered_df = df[['date','state_name'] + [col for col in df.columns.tolist() if col.endswith('state')]].copy()
-			print('filtered')
+			# print('filtered')
 			filtered_df = filtered_df[filtered_df['state_name'] == level_name].drop_duplicates(subset=['date','state_name']
 								).dropna(subset=['state_name'], how='all').reset_index(drop=True)
 			self.level_names = filtered_df['state_name'].values
