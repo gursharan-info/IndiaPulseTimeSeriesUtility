@@ -251,7 +251,7 @@ class Ui_MainWindow(object):
 		ax = self.canv.axes
 		try:
 			self.dataset, LIST_OF_COLUMNS = self.filterDataset(self.filename,self.level, self.level_name)
-			print(self.dataset)
+			# print(self.dataset)
 			ax.plot(self.dataset[self.x_axis_slt],self.dataset[self.y_axis_slt],label=self.y_axis_slt) 
 			legend = ax.legend()
 			legend.set_draggable(True)
@@ -318,20 +318,23 @@ class Ui_MainWindow(object):
 		df = pd.read_csv(csvfilename,encoding='utf-8')
 		time_format = '%d-%m-%Y'
 		LIST_OF_COLUMNS = []
+		print(level)
 		try:
 			if level == 'state':
 				filtered_df = df[['date','state_name'] + [col for col in df.columns.tolist() if col.endswith('state')]].copy()
-				filtered_df = filtered_df[filtered_df['state_name'] == level_name].drop_duplicates(subset=['date','state_name']).reset_index(drop=True)
+				filtered_df = filtered_df[filtered_df['state_name'] == level_name].drop_duplicates(subset=['date','state_name']
+									).dropna(subset=['district_name']).reset_index(drop=True)
 				self.level_names = filtered_df['state_name'].values
 				# LIST_OF_COLUMNS = filtered_df.columns.tolist()
 			elif level == 'district':
 				filtered_df = df[['date','state_name','district_name'] + [col for col in df.columns.tolist() if col.endswith('district')]].copy()
-				filtered_df = filtered_df[filtered_df['district_name'] == level_name].drop_duplicates(subset=['date','state_name','district_name']).reset_index(drop=True)
+				filtered_df = filtered_df[filtered_df['district_name'] == level_name].drop_duplicates(subset=['date','state_name','district_name']
+									).dropna(subset=['district_name']).reset_index(drop=True)
 				self.level_names = filtered_df['district_name'].values
 				# LIST_OF_COLUMNS = filtered_df.columns.tolist()
 			elif level == 'india':
 				filtered_df = df[['date'] + [col for col in df.columns.tolist() if col.endswith('india')]].copy()
-				filtered_df = filtered_df.drop_duplicates(subeset=['date']).reset_index(drop=True)
+				filtered_df = filtered_df.drop_duplicates(subset=['date']).reset_index(drop=True)
 				# LIST_OF_COLUMNS = filtered_df.columns.tolist()
 			else:
 				filtered_df = df.copy()	 
@@ -372,7 +375,7 @@ class Ui_MainWindow(object):
 		else:
 			self.dataset, LIST_OF_COLUMNS = self.getDataset(self.filename)
 		
-		self.df = pd.read_csv(self.filename,encoding = 'utf-8').fillna(0)
+		self.df = pd.read_csv(self.filename,encoding = 'utf-8')
 		
 		# self.Update(self.themes[0]) # lets 0th theme be the default : bmh
 		self.comboBox_1.clear()
