@@ -322,6 +322,7 @@ class Ui_MainWindow(object):
 		try:
 			if level == 'state':
 				filtered_df = df[['date','state_name'] + [col for col in df.columns.tolist() if col.endswith('state')]].copy()
+				print('filtered')
 				filtered_df = filtered_df[filtered_df['state_name'] == level_name].drop_duplicates(subset=['date','state_name']
 									).dropna(subset=['district_name']).reset_index(drop=True)
 				self.level_names = filtered_df['state_name'].values
@@ -346,14 +347,15 @@ class Ui_MainWindow(object):
 		
 		
 		print(LIST_OF_COLUMNS)
-		for col in LIST_OF_COLUMNS:
-			try:
-				# filtered_df[col] = [pd.to_datetime(filtered_df[col], time_format) for i in filtered_df.columns.tolist()[1:]]
-				filtered_df[col] = pd.to_datetime(filtered_df[col], format=time_format)
-			except Exception as e:
-				print(e)
-				pass
-
+		# for col in LIST_OF_COLUMNS:
+		# 	try:
+		# 		# filtered_df[col] = [pd.to_datetime(filtered_df[col], time_format) for i in filtered_df.columns.tolist()[1:]]
+		# 		filtered_df[col] = pd.to_datetime(filtered_df[col], format=time_format)
+		# 	except Exception as e:
+		# 		print(e)
+		# 		pass
+		filtered_df['date'] = pd.to_datetime(filtered_df['date'], format=time_format)
+		
 		return filtered_df,LIST_OF_COLUMNS
 
 
